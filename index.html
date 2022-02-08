@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>replit</title>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  </head>
+  <body>
+    <div class="main">
+      <div class="information">
+        <p class="informationText billText">Bill</p>
+        <div class="inputRow">
+          <div class="billIcon"><i class="fas fa-dollar-sign"></i></div>
+          <input type="number" class="input" id="billInput"/>
+        </div>
+        <p class="informationText selectTipText">Select Tip %</p>
+        <div class="tipPercents">
+          <div class="row1 row">
+            <div class="tip" id="tip1">5%</div>
+            <div class="tip" id="tip2">10%</div>
+            <div class="tip" id="tip3">15%</div>
+          </div>
+          <div class="row2 row">
+            <div class="tip" id="tip4">25%</div>
+            <div class="tip" id="tip5">50%</div>
+            <div class="customTip"><input type="number" class="custom" id="custom" placeholder="Custom" max="100"/></div>
+          </div>
+        </div>
+        <p class="informationText peopleNumberText">Number of People</p>
+        <div class="inputRow">
+          <div class="billIcon"><i class="fas fa-user"></i></div>
+          <input type="number" class="input" id="peopleInput"/>
+        </div>
+      </div>
+      <div class="calculation">
+        <div class="calculationCalculations">
+          <div class="tipPerPerson">
+            <div>
+              <p class="calculationText">Tip Amount</p>
+              <p class="byPerson">/ person</p>
+            </div>
+            <p class="amount" id="tipAmount">0.00$</p>
+          </div>
+          <div class="tipPerPerson">
+            <div>
+              <p class="calculationText">Total</p>
+              <p class="byPerson">/ person</p>
+            </div>
+            <p class="amount" id="tipTotal">0.00$</p>
+          </div>
+        </div>
+        <div class="calculationButton">
+          <button class="reset" id="resetTip">RESET</button>
+        </div>
+      </div>
+    </div>
+    <script>
+      var num = 0;
+      var state = [
+        {
+          state: true
+        },
+        {
+          state: false
+        },
+        {
+          state: false
+        },
+        {
+          state: false
+        },
+        {
+          state: false
+        },
+      ]
+      function changeState(value) {
+        var tip1 = document.getElementById("tip1")
+        var tip2 = document.getElementById("tip2")
+        var tip3 = document.getElementById("tip3")
+        var tip4 = document.getElementById("tip4")
+        var tip5 = document.getElementById("tip5")
+
+        for (let i = 0; i < state.length; i++) {
+          state[i].state = false;
+        }
+
+        state[value].state = true;
+        document.getElementById("custom").value = null;
+
+        if (state[0].state === true) {
+          tip1.style.backgroundColor = " hsl(172, 67%, 45%)"
+          tip1.style.color = "hsl(183, 100%, 15%)"
+          num =5 ;
+        } else {
+          tip1.style.backgroundColor = "hsl(183, 100%, 15%)"
+          tip1.style.color = "#fff"
+        }
+        if (state[1].state === true) {
+          tip2.style.backgroundColor = " hsl(172, 67%, 45%)"
+          tip2.style.color = "hsl(183, 100%, 15%)"
+          num = 10;
+        } else {
+          tip2.style.backgroundColor = "hsl(183, 100%, 15%)"
+          tip2.style.color = "#fff"
+        } 
+        if (state[2].state === true) {
+          tip3.style.backgroundColor = " hsl(172, 67%, 45%)"
+          tip3.style.color = "hsl(183, 100%, 15%)"
+          num = 15;
+        } else {
+          tip3.style.backgroundColor = "hsl(183, 100%, 15%)"
+          tip3.style.color = "#fff"
+        } 
+        if (state[3].state === true) {
+          tip4.style.backgroundColor = " hsl(172, 67%, 45%)"
+          tip4.style.color = "hsl(183, 100%, 15%)"
+          num = 25;
+        } else {
+          tip4.style.backgroundColor = "hsl(183, 100%, 15%)"
+          tip4.style.color = "#fff"
+        } 
+        if (state[4].state === true) {
+          tip5.style.backgroundColor = " hsl(172, 67%, 45%)"
+          tip5.style.color = "hsl(183, 100%, 15%)"
+          num = 50;
+        } else {
+          tip5.style.backgroundColor = "hsl(183, 100%, 15%)"
+          tip5.style.color = "#fff"
+        } 
+      }
+      function calculate() {
+        var custom = document.getElementById("custom")
+        var bill = document.getElementById("billInput")
+        var people = document.getElementById("peopleInput")
+        var tipAmount = document.getElementById("tipAmount")
+        var tipTotal = document.getElementById("tipTotal")
+        if (bill.value > 0 && people.value > 0 && num) {
+          tipAmount.innerHTML = Math.round((bill.value * (num / 100) / people.value) * 100) / 100 + "$"
+          tipTotal.innerHTML = Math.round((bill.value / people.value + (bill.value * (num / 100) / people.value)) * 100) / 100 + "$"
+        } else if (bill.value > 0 && people.value > 0 && custom.value > 0) {
+          tipAmount.innerHTML = Math.round((bill.value * (custom.value / 100) / people.value) * 100) / 100 + "$"
+          tipTotal.innerHTML = Math.round((bill.value / people.value + (bill.value * (custom.value / 100) / people.value)) * 100) / 100 + "$"
+        } else {
+          tipAmount.innerHTML = "0.00$"
+          tipTotal.innerHTML = "0.00$"
+        }
+        console.log(num)
+      }
+
+      function reset() {
+        document.getElementById("billInput").value = null
+        document.getElementById("peopleInput").value = null
+        document.getElementById("tipAmount").innerHTML = "0.00$"
+        document.getElementById("tipTotal").innerHTML = "0.00$"
+        document.getElementById("custom").value = null;
+        num = 0
+        for (let i = 0; i < state.length; i++) {
+          state[i].state = false;
+        }
+        if (state[0].state === true) {
+          tip1.style.backgroundColor = " hsl(172, 67%, 45%)"
+          tip1.style.color = "hsl(183, 100%, 15%)"
+          num =5 ;
+        } else {
+          tip1.style.backgroundColor = "hsl(183, 100%, 15%)"
+          tip1.style.color = "#fff"
+        }
+        if (state[1].state === true) {
+          tip2.style.backgroundColor = " hsl(172, 67%, 45%)"
+          tip2.style.color = "hsl(183, 100%, 15%)"
+          num = 10;
+        } else {
+          tip2.style.backgroundColor = "hsl(183, 100%, 15%)"
+          tip2.style.color = "#fff"
+        } 
+        if (state[2].state === true) {
+          tip3.style.backgroundColor = " hsl(172, 67%, 45%)"
+          tip3.style.color = "hsl(183, 100%, 15%)"
+          num = 15;
+        } else {
+          tip3.style.backgroundColor = "hsl(183, 100%, 15%)"
+          tip3.style.color = "#fff"
+        } 
+        if (state[3].state === true) {
+          tip4.style.backgroundColor = " hsl(172, 67%, 45%)"
+          tip4.style.color = "hsl(183, 100%, 15%)"
+          num = 25;
+        } else {
+          tip4.style.backgroundColor = "hsl(183, 100%, 15%)"
+          tip4.style.color = "#fff"
+        } 
+        if (state[4].state === true) {
+          tip5.style.backgroundColor = " hsl(172, 67%, 45%)"
+          tip5.style.color = "hsl(183, 100%, 15%)"
+          num = 50;
+        } else {
+          tip5.style.backgroundColor = "hsl(183, 100%, 15%)"
+          tip5.style.color = "#fff"
+        } 
+      }
+
+
+      function customInputFunction() {
+        num = 0
+        for (let i = 0; i < state.length; i++) {
+          state[i].state = false;
+        }
+        if (state[0].state === true) {
+          tip1.style.backgroundColor = " hsl(172, 67%, 45%)"
+          tip1.style.color = "hsl(183, 100%, 15%)"
+          num =5 ;
+        } else {
+          tip1.style.backgroundColor = "hsl(183, 100%, 15%)"
+          tip1.style.color = "#fff"
+        }
+        if (state[1].state === true) {
+          tip2.style.backgroundColor = " hsl(172, 67%, 45%)"
+          tip2.style.color = "hsl(183, 100%, 15%)"
+          num = 10;
+        } else {
+          tip2.style.backgroundColor = "hsl(183, 100%, 15%)"
+          tip2.style.color = "#fff"
+        } 
+        if (state[2].state === true) {
+          tip3.style.backgroundColor = " hsl(172, 67%, 45%)"
+          tip3.style.color = "hsl(183, 100%, 15%)"
+          num = 15;
+        } else {
+          tip3.style.backgroundColor = "hsl(183, 100%, 15%)"
+          tip3.style.color = "#fff"
+        } 
+        if (state[3].state === true) {
+          tip4.style.backgroundColor = " hsl(172, 67%, 45%)"
+          tip4.style.color = "hsl(183, 100%, 15%)"
+          num = 25;
+        } else {
+          tip4.style.backgroundColor = "hsl(183, 100%, 15%)"
+          tip4.style.color = "#fff"
+        } 
+        if (state[4].state === true) {
+          tip5.style.backgroundColor = " hsl(172, 67%, 45%)"
+          tip5.style.color = "hsl(183, 100%, 15%)"
+          num = 50;
+        } else {
+          tip5.style.backgroundColor = "hsl(183, 100%, 15%)"
+          tip5.style.color = "#fff"
+        } 
+      }
+
+      function checkLength() {
+        var customInput = document.getElementById("custom");
+        if(parseInt(customInput.value) > 100) { 
+          customInput.value = 100; 
+        }
+      }
+      
+      var tip1 = document.getElementById("tip1")
+      var tip2 = document.getElementById("tip2")
+      var tip3 = document.getElementById("tip3")
+      var tip4 = document.getElementById("tip4")
+      var tip5 = document.getElementById("tip5")
+      tip1.addEventListener("click", () => changeState(0))
+      tip2.addEventListener("click", () => changeState(1))
+      tip3.addEventListener("click", () => changeState(2))
+      tip4.addEventListener("click", () => changeState(3))
+      tip5.addEventListener("click", () => changeState(4))
+      var bill = document.getElementById("billInput")
+      var people = document.getElementById("peopleInput")
+      var tip1 = document.getElementById("tip1")
+      var tip2 = document.getElementById("tip2")
+      var tip3 = document.getElementById("tip3")
+      var tip4 = document.getElementById("tip4")
+      var tip5 = document.getElementById("tip5")
+      bill.addEventListener("input", calculate)
+      people.addEventListener("input", calculate)
+      tip1.addEventListener("click", calculate)
+      tip2.addEventListener("click", calculate)
+      tip3.addEventListener("click", calculate)
+      tip4.addEventListener("click", calculate)
+      tip5.addEventListener("click", calculate)
+
+      var resetTip = document.getElementById("resetTip")
+      resetTip.addEventListener("click", reset)
+
+      var customInput = document.getElementById("custom");
+      customInput.addEventListener("input", customInputFunction)
+      customInput.addEventListener("keyup", checkLength)
+      customInput.addEventListener("input", calculate)
+    </script>
+  </body>
+</html>
